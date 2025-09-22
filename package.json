@@ -1,0 +1,25 @@
+{
+  "name": "greek-gods-api",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+  "test": "jest src/",
+  "build": "tsc --project tsconfig.json",
+  "start": "node dist/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^5.0.3",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^24.5.2",
+    "@types/supertest": "^6.0.3",
+    "jest": "^30.1.3",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.4"
+  }
+}
