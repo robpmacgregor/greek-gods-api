@@ -7,9 +7,7 @@ RUN apt-get update && apt-get install -y \
     python3 \
     && rm -rf /var/lib/apt/lists/*
 
-
-RUN npm install -g typescript ts-node
-
 EXPOSE 3000
 
-CMD ["bash"]
+# Start the Node.js application
+CMD ["node", "dist/index.js"]

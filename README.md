@@ -35,6 +35,13 @@ A simple Node.js and TypeScript API that provides information about Greek gods. 
    ```
    The server will start on port 3000 by default.
 
+## Development Mode
+To run the app in development mode with automatic restarts on code changes:
+```sh
+npm run dev
+```
+This uses nodemon and ts-node to watch and run your TypeScript source directly.
+
 ## Docker
 You can use the provided `Dockerfile` for containerized development. Example:
 ```sh
