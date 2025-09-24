@@ -14,9 +14,9 @@ COPY package.json package-lock.json ./
 
 # Install npm dependencies
 RUN npm install
-
+USER node
 
 EXPOSE 3000
+EXPOSE 9229
 
-# Start the Node.js application
-CMD ["node", "dist/index.js"]
+CMD ["npm", "run", "dev"]

@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["dist/*", "node_modules/*"],
+  "exec": "node --inspect=0.0.0.0:9229 -r ts-node/register --enable-source-maps src/index.ts"
+}

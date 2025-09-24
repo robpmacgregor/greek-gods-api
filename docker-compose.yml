@@ -16,14 +16,15 @@ services:
     container_name: greek-gods-api
     ports:
       - "3000:3000"
+      - "9229:9229"
     depends_on:
       - mongo
     environment:
       MONGO_URI: mongodb://root:example@mongo:27017
     volumes:
-      - .:/usr/src
+      - .:/usr/src/app
       - ./dist:/usr/src/app/dist
-
+      - node_modules:/usr/src/app/node_modules
 volumes:
   mongo-data:
   node_modules:

@@ -49,6 +49,38 @@ docker build -t greek-gods-api .
 docker run -it --rm -v $(pwd):/usr/src/app -p 3000:3000 greek-gods-api
 ```
 
+## Docker Compose
+
+### Running the App with Docker Compose
+
+1. **Build and start the containers:**
+   ```sh
+   docker-compose up --build
+   ```
+   This will start both the MongoDB and greek-gods-api services.
+
+2. **Stop the containers:**
+   ```sh
+   docker-compose down
+   ```
+
+### Connecting to a Running Container
+
+To open a shell inside the `greek-gods-api` container:
+```sh
+docker exec -it greek-gods-api /bin/bash
+```
+
+To open a shell inside the `mongo` container:
+```sh
+docker exec -it mongo /bin/bash
+```
+
+### Debugging
+
+- The Node.js debugger is exposed on port `9229`.  
+- You can attach VS Code to the running container using the provided launch configuration.
+
 ## Healthcheck Endpoint
 - `GET /health` — Returns `{ "status": "ok" }` if the server is running.
 

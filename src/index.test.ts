@@ -1,7 +1,6 @@
 import request from 'supertest';
 import express from 'express';
 
-// Import the app or recreate the healthcheck endpoint for testing
 const app = express();
 app.get('/health', (req: express.Request, res: express.Response) => {
   res.status(200).json({ status: 'ok' });
