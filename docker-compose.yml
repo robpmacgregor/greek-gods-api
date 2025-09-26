@@ -19,8 +19,6 @@ services:
       - "9229:9229"
     depends_on:
       - mongo
-    environment:
-      MONGO_URI: mongodb://root:example@mongo:27017
     volumes:
       - .:/usr/src/app
       - ./dist:/usr/src/app/dist

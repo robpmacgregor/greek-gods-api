@@ -1,19 +1,13 @@
 import express from 'express';
 import winston from 'winston';
-import mongoose from 'mongoose';
+import { connectDB } from './utils/db';
+import { GreekGodModel } from './models/greekGod';
+import { isValidObjectId } from './utils/validators';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.EXPRESS_PORT;
 
-// MongoDB connection
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://root:example@mongo:27017/example?authSource=admin';
-mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((err) => {
-    console.error('MongoDB connection error:', err);
-  });
+connectDB();
 
 const logger = winston.createLogger({
   level: 'info',
@@ -26,13 +20,19 @@ app.get('/health', (req: express.Request, res: express.Response) => {
   res.status(200).json({ status: 'ok' });
 });
 
-app.get('/greek-god/1', (req: express.Request, res: express.Response) => {
-  res.status(200).json({
-    id: 1,
-    name: "Zeus",
-    role: "King of the gods, sky, thunder",
-    myth: "Overthrew the Titans; ruled from Mount Olympus; punished Prometheus"
-  });
+app.get('/greek-god/:id', async (req: express.Request, res: express.Response) => {
+  const { id } = req.params;
+
+  if (!isValidObjectId(id)) {
+    return res.status(400).json({ message: 'Invalid id format. Must be a 24 character hex string.' });
+  }
+
+  const god = await GreekGodModel.findById(id);
+  if (god) {
+    res.status(200).json(god);
+  } else {
+    res.status(404).json({ message: 'Greek god not found' });
+  }
 });
 
 app.listen(PORT, () => {
