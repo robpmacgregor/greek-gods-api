@@ -22,13 +22,16 @@ app.get('/greek-god/:id', async (req: express.Request, res: express.Response) =>
   const { id } = req.params;
 
   if (!isValidObjectId(id)) {
+    logger.error(`Invalid id format received: ${id}`);
     return res.status(400).json({ message: 'Invalid id format. Must be a 24 character hex string.' });
   }
 
   const god = await GreekGodModel.findById(id);
   if (god) {
+    logger.info(`Greek god found: ${god.name} (id: ${id})`);
     res.status(200).json(god);
   } else {
+    logger.error(`Greek god not found for id: ${id}`);
     res.status(404).json({ message: 'Greek god not found' });
   }
 });
