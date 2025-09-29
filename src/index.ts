@@ -36,6 +36,17 @@ app.get('/greek-god/:id', async (req: express.Request, res: express.Response) =>
   }
 });
 
+app.get('/greek-god', async (req: express.Request, res: express.Response) => {
+  try {
+    const gods = await GreekGodModel.find({});
+    logger.info(`GET /greek-god - Returned ${gods.length} Greek gods`);
+    res.status(200).json(gods);
+  } catch (error) {
+    logger.error(`Error fetching Greek gods: ${error}`);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 // Async setup function for tests and server
 export async function setupApp() {
   await connectDB();

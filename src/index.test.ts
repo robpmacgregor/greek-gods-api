@@ -25,7 +25,7 @@ describe('GET /health', () => {
   });
 });
 
-describe('GET /greek-god/68d6561d957bbf3b4f979f98', () => {
+describe('GET /greek-god/id success states', () => {
   it('should return Zeus details', async () => {
     const res = await request(server).get('/greek-god/68d6561d957bbf3b4f979f98');
     expect(res.statusCode).toBe(200);
@@ -54,3 +54,18 @@ describe('GET /greek-god/:id fail states', () => {
     expect(res.body).toEqual({ message: 'Greek god not found' });
   });
 });
+
+describe('GET /greek-god success states', () => {
+  it('should return a list of Greek gods with status 200', async () => {
+    const res = await request(server).get('/greek-god');
+    expect(res.statusCode).toBe(200);
+    expect(Array.isArray(res.body)).toBe(true);
+    // Optionally check that at least one resource is returned
+    expect(res.body.length).toBeGreaterThan(0);
+    // Optionally check the shape of the first resource
+    expect(res.body[0]).toHaveProperty('name');
+    expect(res.body[0]).toHaveProperty('role');
+    expect(res.body[0]).toHaveProperty('myth');
+  });
+});
+
