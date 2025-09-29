@@ -3,4 +3,5 @@ docker exec greek-gods-api npm run pre-commit
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   echo "Tests failed, commit aborted."
-  exit 
+  exit 1
+fi
