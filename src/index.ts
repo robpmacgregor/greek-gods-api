@@ -13,8 +13,8 @@ const logger = winston.createLogger({
   transports: [new winston.transports.Console()]
 });
 
-app.get('/health', (req: express.Request, res: express.Response) => {
-  logger.info('GET /health endpoint called');
+app.get('/healthz', (req: express.Request, res: express.Response) => {
+  logger.info('GET /healthz endpoint called');
   res.status(200).json({ status: 'ok' });
 });
 

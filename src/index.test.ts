@@ -17,9 +17,9 @@ afterAll(async () => {
   await mongoose.disconnect();
 });
 
-describe('GET /health', () => {
+describe('GET /healthz success states', () => {
   it('should return status ok', async () => {
-    const res = await request(server).get('/health');
+    const res = await request(server).get('/healthz');
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual({ status: 'ok' });
   });
