@@ -25,7 +25,6 @@ describe('GET /health', () => {
   });
 });
 
-// Update this test if your endpoint now fetches from MongoDB by ObjectId
 describe('GET /greek-god/68d6561d957bbf3b4f979f98', () => {
   it('should return Zeus details', async () => {
     const res = await request(server).get('/greek-god/68d6561d957bbf3b4f979f98');
@@ -37,5 +36,21 @@ describe('GET /greek-god/68d6561d957bbf3b4f979f98', () => {
       myth: "Overthrew the Titans; ruled from Mount Olympus; punished Prometheus",
       __v: 0
     });
+  });
+});
+
+describe('GET /greek-god/:id fail states', () => {
+  it('should return 400 for invalid id format', async () => {
+    const res = await request(server).get('/greek-god/notavalidid');
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({ message: 'Invalid id format. Must be a 24 character hex string.' });
+  });
+
+  it('should return 404 for valid id but resource not found', async () => {
+    // Use a valid but non-existent ObjectId
+    const nonExistentId = '0123456789abcdef01234567';
+    const res = await request(server).get(`/greek-god/${nonExistentId}`);
+    expect(res.statusCode).toBe(404);
+    expect(res.body).toEqual({ message: 'Greek god not found' });
   });
 });
