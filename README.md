@@ -1,95 +1,89 @@
 # Greek Gods API
 
-A simple Node.js and TypeScript API that provides information about Greek gods. The app uses Express and includes a healthcheck endpoint.
+## Endpoints
 
-## Features
-- Express HTTP server
-- `/health` endpoint for health checks
-- TypeScript for type safety
-- Jest and Supertest for testing
+### 1. Health Check
+- **URL:** `GET /healthz`
+- **Description:** Returns `{ status: 'ok' }` if the API is running.
+- **Example:**
+  ```sh
+  curl http://localhost:3000/healthz
+  ```
 
-## Prerequisites
-- Node.js (v20 or later)
-- npm
+### 2. Get All Greek Gods
+- **URL:** `GET /greek-god`
+- **Description:** Returns a JSON array of all Greek god resources.
+- **Example:**
+  ```sh
+  curl http://localhost:3000/greek-god
+  ```
 
-## Setup
-1. Install dependencies:
-   ```sh
-   npm install
-   ```
+### 3. Get Greek God by ID
+- **URL:** `GET /greek-god/{id}`
+- **Description:** Returns a single Greek god resource by MongoDB ObjectId.
+- **Example:**
+  ```sh
+  curl http://localhost:3000/greek-god/<ObjectId>
+  ```
 
-2. Build the TypeScript source:
-   ```sh
-   npm run build
-   ```
-   Compiled files will be output to the `dist` directory.
+---
 
-3. Run tests:
-   ```sh
-   npm test
-   ```
+## Running with Docker Compose
 
-4. Start the application:
-   ```sh
-   npm start
-   ```
-   The server will start on port 3000 by default.
-
-## Development Mode
-To run the app in development mode with automatic restarts on code changes:
+### Start the services
 ```sh
-npm run dev
+docker-compose up --build
 ```
-This uses nodemon and ts-node to watch and run your TypeScript source directly.
 
-## Docker
-You can use the provided `Dockerfile` for containerized development. Example:
+### Stop the services
 ```sh
-docker build -t greek-gods-api .
-docker run -it --rm -v $(pwd):/usr/src/app -p 3000:3000 greek-gods-api
+docker-compose down
 ```
 
-## Docker Compose
+---
 
-### Running the App with Docker Compose
+## Running NPM Commands Inside the Docker Container
 
-1. **Build and start the containers:**
-   ```sh
-   docker-compose up --build
-   ```
-   This will start both the MongoDB and greek-gods-api services.
+Run these commands from your host terminal to execute npm scripts inside the running container:
 
-2. **Stop the containers:**
-   ```sh
-   docker-compose down
-   ```
-
-### Connecting to a Running Container
-
-To open a shell inside the `greek-gods-api` container:
+### Run Tests
 ```sh
-docker exec -it greek-gods-api /bin/bash
+docker exec -it greek-gods-api npm run test
 ```
 
-To open a shell inside the `mongo` container:
+### Build TypeScript
 ```sh
-docker exec -it mongo /bin/bash
+docker exec -it greek-gods-api npm run build
 ```
 
-### Debugging
-
-- The Node.js debugger is exposed on port `9229`.  
-- You can attach VS Code to the running container using the provided launch configuration.
-
-## Healthcheck Endpoint
-- `GET /health` — Returns `{ "status": "ok" }` if the server is running.
-
-## Project Structure
+### Start Compiled App
+```sh
+docker exec -it greek-gods-api npm run start
 ```
-├── src/            # TypeScript source files
-├── dist/           # Compiled JavaScript output
-├── package.json    # Project metadata and scripts
-├── tsconfig.json   # TypeScript configuration
-├── Dockerfile      # Container setup
-├── .gitignore      # Git ignore rules
+
+### Run in Development Mode (with hot reload)
+```sh
+docker exec -it greek-gods-api npm run dev
 ```
+
+### Seed MongoDB
+```sh
+docker exec -it greek-gods-api npm run seedMongoDB
+```
+
+### Run Linting
+```sh
+docker exec -it greek-gods-api npm run lint
+```
+
+### Pre-commit Checks (tests + lint)
+```sh
+docker exec -it greek-gods-api npm run pre-commit
+```
+
+---
+
+## Notes
+
+- Make sure MongoDB is running and seeded before calling the `/greek-god` endpoints.
+- Use valid 24-character hex MongoDB ObjectIds for the `/greek-god/{id}` endpoint.
