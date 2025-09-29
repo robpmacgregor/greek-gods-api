@@ -7,8 +7,6 @@ import { isValidObjectId } from './utils/validators';
 const app = express();
 const PORT = process.env.EXPRESS_PORT;
 
-connectDB();
-
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.simple(),
@@ -35,8 +33,17 @@ app.get('/greek-god/:id', async (req: express.Request, res: express.Response) =>
   }
 });
 
-app.listen(PORT, () => {
-  logger.info(`Server is running on port ${PORT}`);
-});
+// Async setup function for tests and server
+export async function setupApp() {
+  await connectDB();
+  return app;
+}
 
-export default app;
+// Only start the server if this file is run directly
+if (require.main === module) {
+  setupApp().then(() => {
+    app.listen(PORT, () => {
+      logger.info(`Server is running on port ${PORT}`);
+    });
+  });
+}
